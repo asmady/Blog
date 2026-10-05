@@ -129,6 +129,12 @@ nav.toc button:hover { border-color: var(--accent); color: var(--accent); }
     <span class="meta">3 Oktober 2026 &middot; 6 menit baca</span>
     <p><button onclick="buka(1)" style="background:none;border:none;color:var(--accent);cursor:pointer;font-size:0.9rem;padding:0;font-family:inherit">Baca artikel &rarr;</button></p>
   </li>
+  <li class="post-card">
+    <h2>Kendalikan Program dari Telegram</h2>
+    <p>Arsitektur mesin + penjadwal + antarmuka Telegram, dan jebakan yang membuat bot diam.</p>
+    <span class="meta">5 Oktober 2026 &middot; 6 menit baca</span>
+    <p><button onclick="buka(2)" style="background:none;border:none;color:var(--accent);cursor:pointer;font-size:0.9rem;padding:0;font-family:inherit">Baca artikel &rarr;</button></p>
+  </li>
 </ul>
 
 <nav class="toc">
@@ -177,6 +183,102 @@ git push -u origin main</code></pre>
     <blockquote>Yang bisa dijalankan di HP: laporan, pengingat, pengecekan data. Yang tidak: mengelola aplikasi lain, membaca pesan, atau mengendalikan layar.</blockquote>
 </article>
 
+
+<article class="post" id="a2">
+<h1>Kendalikan Program dari Telegram</h1>
+<span class="meta">5 Oktober 2026 &middot; 6 menit baca</span>
+
+<p>Program yang jalan sendiri itu memangADA gunanya. Tapi program yang jalan sendiri <em>dan</em> bisa diperintah dari jauh adalah masalah yang berbeda. HP tidak perlu disentuh untuk menjalankan, dan tidak perlu dibuka untuk mengendalikan.</p>
+
+<h2>Arsitektur paling sederhana</h2>
+<p>Tiga bagian, semuanya berjalan di HP:</p>
+<ol>
+<li><strong>Mesin</strong> &mdash; program yang mengerjakan tugas, misalnya memeriksa harga setiap 5 menit</li>
+<li><strong>Penjadwal</strong> &mdash; <code>runit</code>, penjadwal bawaan Termux yang menyalakan mesin otomatis setiap HP dinyalakan ulang</li>
+<li><strong>Antarmuka</strong> &mdash; program kecil yang membaca pesan Telegram lalu memanggil mesin</li>
+</ol>
+<p>Bagian ketiga yang paling sering dilupakan. Tanpa itu, satu-satunya cara mengatur program adalah membuka Termux dan mengetik perintah.</p>
+
+<h2>Kenapa Telegram, bukan aplikasi sendiri</h2>
+<p>Alasannya praktis, bukan teknis:</p>
+<ul>
+<li>Sudah ada di HP, tidak perlu memasang apa pun</li>
+<li>Bisa diakses dari mana saja, browser smartphone pun cukup</li>
+<li>Bisa menulis <em>perintah</em>, bukan hanya menampilkan angka</li>
+<li>Notifikasi sampai dalam hitungan detik</li>
+</ul>
+
+<h2>Aturan emas: satu bot, satu poller</h2>
+<p>Ini yang paling sering menimbulkan masalah. Setiap token bot Telegram hanya bisa dibaca oleh <strong>satu</strong> program pada satu waktu. Kalau dua program berjalan bersamaan memakai token yang sama, salah satunya merebut pesan, dan program yang Beautynamed ikut kehilangan kemampuan membalas.</p>
+<p>Akibatnya bisa ringan, bisa fatal. Bot yang tadinya lancar bisa berubah diam. Gejalanya membingungkan karena log tetap mencatat pesan masuk, padahal tidak ada balasan yang keluar.</p>
+
+<h2>Log bukan bukti bot membalas</h2>
+<p>Pelajaran ini mahal. Baris log seperti <em>5 pesan diproses</em> hanya membuktikan separuh hal:</p>
+<table>
+<thead><tr><th>Yang dibuktikan log</th><th>Yang belum dibuktikan</th></tr></thead>
+<tbody>
+<tr><td>Telegram mengantar pesan</td><td>Program membacanya</td></tr>
+<tr><td>Offset maju, pesan tidak diulang</td><td>Bot mengirim balasan</td></tr>
+<tr><td>Dispatch berjalan</td><td>Balasan sampai ke chat</td></tr>
+</tbody>
+</table>
+<p>Kalau pengguna melaporkan bot tidak merespons, periksa jalur keluar lebih dulu, bukan jalur masuk. Cara paling murah: panggil API Telegram langsung dengan token tersebut memakai <code>curl</code>, lalu lihat apa yang terjadi di sana.</p>
+
+<h2>Jangan diamkan kesalahan</h2>
+<p>Aturan yang murah dan sangat penting: setiap perintah yang tidak dikenali <strong>harus</strong> mendapat balasan.</p>
+<pre><code>perintah = pesan.split(&quot;@&quot;)[0].lstrip(&quot;/&quot;).lower()
+
+if perintah in alias:
+    tangani(perintah)
+elif perintah == &quot;status&quot;:
+    kirim_status()
+else:
+    kirim(&quot;Perintah tidak dikenal. Daftar: status, tabel, saldo, menu&quot;)
+</code></pre>
+<p>Bot yang menjawab &ldquo;saya tidak tahu&rdquo; jelas masih hidup. Bot yang tidak menjawab sama sekali akan dianggap mati, dan itu asumsi yang paling mahal karena membuat pengguna menyangka programnya rusak.</p>
+
+<h2>Normalisasi sebelum mencocokkan</h2>
+<p>Pengguna tidak mengetik persis seperti dokumentasi. Ia bisa menulis <code>Status</code>, <code>/status</code>, atau <code>status@Chacha25bot</code>. Ketiganya perintah yang sama. Kalau pencocokan dilakukan mentah-mentah:</p>
+<table>
+<thead><tr><th>Masukan pengguna</th><th>Harus dianggap sebagai</th></tr></thead>
+<tbody>
+<tr><td><code>status</code></td><td>perintah status</td></tr>
+<tr><td><code>Status</code></td><td>perintah status</td></tr>
+<tr><td><code>/STATUS</code></td><td>perintah status</td></tr>
+<tr><td><code>status@Chacha25bot</code></td><td>perintah status</td></tr>
+<tr><td><code>halo</code></td><td>tidak dikenal, tetap dibalas</td></tr>
+</tbody>
+</table>
+<p>Normalisasi harus menjadi baris pertama, sebelum logika apa pun. Detail kecil ini yang menentukan apakah bot terasa|round pintar atau terasa kaku.</p>
+
+<h2>Menguji tanpa mengirim apa pun</h2>
+<p>Jangan langsung menguji program ke Against pengguna. Ganti fungsi pengirim dengan stub yang hanya mencatat:</p>
+<pre><code>terkirim = []
+
+def kirim(teks):
+    terkirim.append(teks)
+
+# ... jalankan setiap perintah ...
+
+for masukan in (biasanya, kapital, tak_dikenal, bersuffix):
+    jalankan(masukan)
+    assert terkirim, &quot;masukan tidak dibalas: &quot; + masukan
+</code></pre>
+<p>Untuk bot trading, stub ini jauh lebih penting. Jangan pernah memanggil fungsi yang membuka posisi asli di dalam pengujian. Sekali posisi nyata terbuka, tidak ada tombol batal.</p>
+
+<h2>Daftar periksa sebelum menyebut selesai</h2>
+<ol>
+<li>Proses benar-benar ada &mdash; cek PID, bukan hanya &ldquo;perintah dijalankan&rdquo;</li>
+<li>Log punya isi &mdash; proses bisa berstatus jalan padahal keluarannya tertahan buffer</li>
+<li>Balasan benar-benar sampai &mdash; kirim dari akun lain, bukan dari chat sendiri</li>
+<li>Perintah tak dikenal tetap dibalas</li>
+<li>Offset tersimpan setelah restart sehingga pesan lama tidak diputar ulang</li>
+</ol>
+
+<h2>Penutup</h2>
+<p>Automasi yang jalan sendiri terasa mengagumkan. Tapi yang bisa diperintah dari Telegram itulah yang sebenarnya berguna. Kalau programnya masih hanya dikendalikan lewat keyboard, itu script yang dijadwalkan, bukan sistem.</p>
+<p>Dan bagian yang paling sering terlupakan: program yang diam adalah program yang tidak bisa dipercaya, bukan program yang sedang bekerja dengan baik.</p>
+</article>
 <footer class="site">
   <p>&copy; 2026 Ardi Aliansyah</p>
 </footer>
