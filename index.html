@@ -130,6 +130,12 @@ nav.toc button:hover { border-color: var(--accent); color: var(--accent); }
     <p><button onclick="buka(1)" style="background:none;border:none;color:var(--accent);cursor:pointer;font-size:0.9rem;padding:0;font-family:inherit">Baca artikel &rarr;</button></p>
   </li>
   <li class="post-card">
+    <h2>Membuat Blog Gratis di HP Android dengan GitHub Pages</h2>
+    <p>Panduan lengkap membuat website blog gratis langsung dari HP Android tanpa biaya hosting.</p>
+    <span class="meta">6 Oktober 2026 &middot; 8 menit baca</span>
+    <p><button onclick="buka(4)" style="background:none;border:none;color:var(--accent);cursor:pointer;font-size:0.9rem;padding:0;font-family:inherit">Baca artikel &rarr;</button></p>
+  </li>
+  <li class="post-card">
     <h2>Cara Install Termux di HP Android (2026)</h2>
     <p>Panduan lengkap memasang Termux di HP Android, dari download sampai siap pakai.</p>
     <span class="meta">6 Oktober 2026 &middot; 7 menit baca</span>
@@ -349,6 +355,119 @@ for masukan in (biasanya, kapital, tak_dikenal, bersuffix):
 <p>Setelah Termux terinstall dan berfungsi, kamu bisa mulai membuat blog, menjalankan cron job, atau bahkan mengendalikan program dari Telegram. Semua itu bisa dilakukan langsung dari HP tanpa biaya tambahan.</p>
 
 <blockquote>Termux bukan sekadar aplikasi terminal. Ia adalah pintu masuk HP Android ke dunia Linux, dan semua kemungkinan yang datang dengannya.</blockquote>
+</article>
+<article class="post" id="a4">
+<h1>Membuat Blog Gratis di HP Android dengan GitHub Pages</h1>
+<span class="meta">6 Oktober 2026 &middot; 8 menit baca</span>
+
+<p>Membuat blog sendiri terdengar seperti hal yang butuh skill teknis tinggi dan biaya besar. Padahal dengan HP Android dan Termux, kamu bisa membuat website blog yang benar-benar online dalam waktu kurang dari satu jam, dengan biaya nol rupiah.</p>
+
+<h2>Kenapa blog gratis?</h2>
+<p>Sebelum mulai membangun, penting memahami alasan memilih blog gratis dulu:</p>
+<ul>
+<li><strong>Nol risiko</strong> — tidak ada biaya hosting yang terbuang jika blog belum berkembang</li>
+<li><strong>Fokus konten</strong> — tidak perlu pusing soal server, cukup tulis artikel</li>
+<li><strong>Cepat launch</strong> — bisa online dalam hitungan menit, bukan hari</li>
+<li><strong>Upgrade kapan saja</strong> — kalau sudah ada pemasakan, bisa pindah ke hosting berbayar</li>
+</ul>
+
+<h2>Yang dibutuhkan</h2>
+<p>Tiga hal saja:</p>
+<ol>
+<li>HP Android dengan Termux terinstall</li>
+<li>Akun GitHub (gratis, daftar di github.com)</li>
+<li>Koneksi internet</li>
+</ol>
+
+<h2>Langkah 1: Buat akun GitHub</h2>
+<p>Belum punya akun GitHub? Ikuti langkah ini:</p>
+<ol>
+<li>Buka <code>github.com</code> di browser HP</li>
+<li>Klik <strong>Sign up</strong></li>
+<li>Masukkan email, buat password, pilih username</li>
+<li>Verifikasi email</li>
+</ol>
+<p>Username ini penting karena akan menjadi alamat blog kamu: <code>username.github.io</code></p>
+
+<h2>Langkah 2: Buat repository baru</h2>
+<p>Repository adalah folder tempat file blog kamu disimpan di GitHub.</p>
+<ol>
+<li>Setelah login GitHub, klik tombol <strong>+</strong> di pojok kanan atas</li>
+<li>Pilih <strong>New repository</strong></li>
+<li>Isi nama repository: <code>username.github.io</code> (ganti username dengan username kamu)</li>
+<li>Pilih <strong>Public</strong></li>
+<li>Klik <strong>Create repository</strong></li>
+</ol>
+
+<h2>Langkah 3: Buat file blog di Termux</h2>
+<p>Buka Termux dan jalankan perintah berikut:</p>
+<pre><code>mkdir ~/blog-baru
+cd ~/blog-baru
+nano index.html</code></pre>
+<p>Di editor nano, ketik kode HTML sederhana:</p>
+<pre><code>&lt;!DOCTYPE html&gt;
+&lt;html&gt;
+&lt;head&gt;
+  &lt;title&gt;Blog Pertama Saya&lt;/title&gt;
+&lt;/head&gt;
+&lt;body&gt;
+  &lt;h1&gt;Selamat Datang di Blog Saya&lt;/h1&gt;
+  &lt;p&gt;Ini adalah blog pertama saya.&lt;/p&gt;
+&lt;/body&gt;
+&lt;/html&gt;</code></pre>
+<p>Simpan dengan menekan <code>Ctrl+O</code> lalu <code>Enter</code>, keluar dengan <code>Ctrl+X</code>.</p>
+
+<h2>Langkah 4: Upload ke GitHub</h2>
+<p>Setelah file selesai dibuat, upload ke GitHub:</p>
+<pre><code>cd ~/blog-baru
+git init
+git add .
+git commit -m "Blog pertama"
+git branch -M main
+git remote add origin https://github.com/USERNAME/USERNAME.github.io.git
+git push -u origin main</code></pre>
+<p>Ganti <code>USERNAME</code> dengan username GitHub kamu. Jika diminta password, gunakan <strong>Personal Access Token</strong>, bukan password biasa.</p>
+
+<h2>Langkah 5: Aktifkan GitHub Pages</h2>
+<p>File sudah di GitHub, tapi blog belum online. Aktifkan GitHub Pages:</p>
+<ol>
+<li>Buka repository di browser</li>
+<li>Klik <strong>Settings</strong></li>
+<li>Menu <strong>Pages</strong> di sidebar kiri</li>
+<li>Source: pilih <strong>Deploy from a branch</strong></li>
+<li>Branch: pilih <strong>main</strong>, folder <strong>/ (root)</strong></li>
+<li>Klik <strong>Save</strong></li>
+</ol>
+<p>Tunggu 1-2 menit. Blog kamu sekarang online di <code>https://USERNAME.github.io</code></p>
+
+<h2>Langkah 6: Tambah artikel baru</h2>
+<p>Untuk menambah artikel, edit file <code>index.html</code> di Termux, lalu push lagi:</p>
+<pre><code>cd ~/blog-baru
+nano index.html
+# edit file, simpan
+git add .
+git commit -m "Tambah artikel baru"
+git push origin main</code></pre>
+<p>Perubahan akan otomatis live dalam 1-2 menit.</p>
+
+<h2>Tips agar blog cepat berkembang</h2>
+<ul>
+<li><strong>Konsisten</strong> — posting minimal 2-3x per minggu</li>
+<li><strong>SEO dasar</strong> — gunakan keyword di judul dan paragraf pertama</li>
+<li><strong>Mobile friendly</strong> — pastikan blog tampil bagus di HP</li>
+<li><strong>Bagikan</strong> — share artikel di media sosial atau forum</li>
+</ul>
+
+<h2>Kesalahan yang sering terjadi</h2>
+<p><strong>Repository name salah</strong> — harus persis <code>username.github.io</code>, tidak bisa pakai nama lain.</p>
+<p><strong>Lupa ganti username di perintah git</strong> — selalu cek sebelum push.</p>
+<p><strong>Langsung menutup Termux</strong> — tunggu proses push selesai dulu.</p>
+<p><strong>Menghapus file tanpa backup</strong> — selalu simpan salinan di folder lain.</p>
+
+<h2>Langkah selanjutnya</h2>
+<p>Blog sudah online. Sekarang fokus ke konten berkualitas dan SEO. Tambah artikel secara konsisten, riset keyword yang relevan, dan bagikan ke komunitas yang tepat.</p>
+
+<blockquote>Blog gratis bukan blog yang kurang serius. Ia adalah pintu masuk yang sempurna untuk memulai tanpa risiko, dan fondasi yang kuat untuk berkembang.</blockquote>
 </article>
 <footer class="site">
   <p>&copy; 2026 Blog Ardi Aliansyah</p>
