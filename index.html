@@ -3,8 +3,27 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Blog Ardi Aliansyah</title>
-<meta name="description" content="Catatan harian tentang teknologi, automation, dan trading.">
+<title>Blog asmady</title>
+<meta name="description" content="Catatan harian tentang teknologi, automation, dan blogging — langsung dari HP Android.">
+<meta name="robots" content="index, follow">
+<meta name="author" content="Ardi Aliansyah">
+<link rel="canonical" href="https://asmady.github.io/">
+
+<!-- Open Graph -->
+<meta property="og:type" content="website">
+<meta property="og:title" content="Blog asmady">
+<meta property="og:description" content="Catatan harian tentang teknologi, automation, dan blogging — langsung dari HP Android.">
+<meta property="og:url" content="https://asmady.github.io/">
+<meta property="og:site_name" content="Blog asmady">
+
+<!-- Twitter Card -->
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="Blog asmady">
+<meta name="twitter:description" content="Catatan harian tentang teknologi, automation, dan blogging — langsung dari HP Android.">
+
+<!-- Theme -->
+<meta name="theme-color" content="#0f1115">
+<meta name="google-site-verification" content="gG7Jk2ga3LjHB30F5fC0ozVCzOab9N6kBSqo3mrGgA8">
 <style>
 :root {
   --bg: #0f1115;
@@ -12,7 +31,9 @@
   --text: #e6e8ec;
   --muted: #9aa3af;
   --accent: #4f9cf9;
+  --accent2: #a78bfa;
   --border: #262b35;
+  --gradient: linear-gradient(135deg, #4f9cf9 0%, #a78bfa 100%);
 }
 
 * { box-sizing: border-box; }
@@ -28,12 +49,57 @@ body {
 .wrap {
   max-width: 720px;
   margin: 0 auto;
-  padding: 32px 20px 60px;
+  padding: 0 20px 60px;
+}
+
+/* Hero Section */
+.hero {
+  background: var(--gradient);
+  border-radius: 16px;
+  padding: 48px 32px;
+  margin: 32px 0;
+  text-align: center;
+  position: relative;
+  overflow: hidden;
+}
+
+.hero::before {
+  content: '';
+  position: absolute;
+  top: -50%;
+  left: -50%;
+  width: 200%;
+  height: 200%;
+  background: radial-gradient(circle, rgba(255,255,255,0.1) 0%, transparent 60%);
+  animation: pulse 4s ease-in-out infinite;
+}
+
+@keyframes pulse {
+  0%, 100% { transform: scale(1); opacity: 0.5; }
+  50% { transform: scale(1.1); opacity: 0.8; }
+}
+
+.hero h1 {
+  margin: 0 0 12px;
+  font-size: 2.2rem;
+  font-weight: 800;
+  color: #fff;
+  position: relative;
+  z-index: 1;
+  letter-spacing: -0.5px;
+}
+
+.hero p {
+  margin: 0;
+  color: rgba(255,255,255,0.9);
+  font-size: 1.05rem;
+  position: relative;
+  z-index: 1;
 }
 
 header.site {
   border-bottom: 1px solid var(--border);
-  padding-bottom: 20px;
+  padding: 24px 0 20px;
   margin-bottom: 32px;
 }
 
@@ -53,18 +119,43 @@ header.site h1 a:hover { color: var(--accent); }
 .post-card {
   background: var(--card);
   border: 1px solid var(--border);
-  border-radius: 12px;
-  padding: 20px;
+  border-radius: 16px;
+  padding: 24px;
   margin-bottom: 16px;
+  transition: all 0.3s ease;
+  position: relative;
+  overflow: hidden;
+}
+
+.post-card::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 4px;
+  height: 100%;
+  background: var(--gradient);
+  opacity: 0;
+  transition: opacity 0.3s ease;
+}
+
+.post-card:hover {
+  transform: translateY(-4px);
+  border-color: var(--accent);
+  box-shadow: 0 12px 32px rgba(79, 156, 249, 0.15);
+}
+
+.post-card:hover::before {
+  opacity: 1;
 }
 
 .post-card h2 { margin: 0 0 8px; font-size: 1.25rem; }
 .post-card h2 a { color: var(--text); text-decoration: none; }
 .post-card h2 a:hover { color: var(--accent); }
 
-.post-card p { margin: 0 0 10px; color: var(--muted); font-size: 0.95rem; }
+.post-card p { margin: 0 0 12px; color: var(--muted); font-size: 0.95rem; }
 
-.meta { color: var(--muted); font-size: 0.8rem; }
+.meta { color: var(--muted); font-size: 0.8rem; display: block; margin-bottom: 12px; }
 
 article.post h1 { font-size: 1.8rem; line-height: 1.3; margin: 0 0 8px; }
 article.post .meta { display: block; margin-bottom: 28px; }
@@ -105,14 +196,27 @@ nav.toc button {
   background: var(--card); color: var(--text); border: 1px solid var(--border);
   border-radius: 999px; padding: 8px 16px; font-size: 0.85rem; cursor: pointer;
   font-family: inherit;
+  transition: all 0.2s ease;
 }
-nav.toc button:hover { border-color: var(--accent); color: var(--accent); }
+nav.toc button:hover { border-color: var(--accent); color: var(--accent); transform: translateY(-2px); }
+
+/* Read more button */
+.post-card button {
+  transition: all 0.2s ease;
+}
+.post-card button:hover {
+  transform: translateX(4px);
+}
 </style>
 </head>
 <body>
 <div class="wrap">
+<div class="hero">
+  <h1>Blog asmady</h1>
+  <p>Teknologi, automation, dan blogging — langsung dari HP Android.</p>
+</div>
 <header class="site">
-  <h1>Blog Ardi Aliansyah</h1>
+  <h1><a href="/">Blog asmady</a></h1>
   <p class="tagline">Catatan harian tentang teknologi, automation, dan blogging.</p>
 </header>
 
@@ -146,6 +250,24 @@ nav.toc button:hover { border-color: var(--accent); color: var(--accent); }
     <p>Arsitektur mesin + penjadwal + antarmuka Telegram, dan jebakan yang membuat bot diam.</p>
     <span class="meta">5 Oktober 2026 &middot; 6 menit baca</span>
     <p><button onclick="buka(2)" style="background:none;border:none;color:var(--accent);cursor:pointer;font-size:0.9rem;padding:0;font-family:inherit">Baca artikel &rarr;</button></p>
+  </li>
+  <li class="post-card">
+    <h2>Cara Backup Termux ke GitHub</h2>
+    <p>Backup otomatis folder Termux ke GitHub dengan git dan cron, aman dari kehilangan data.</p>
+    <span class="meta">7 Oktober 2026 &middot; 5 menit baca</span>
+    <p><button onclick="buka(5)" style="background:none;border:none;color:var(--accent);cursor:pointer;font-size:0.9rem;padding:0;font-family:inherit">Baca artikel &rarr;</button></p>
+  </li>
+  <li class="post-card">
+    <h2>Membuat SSH Key di Termux</h2>
+    <p>Connect ke GitHub tanpa password dengan SSH key, sekali setup langsung permanen.</p>
+    <span class="meta">7 Oktober 2026 &middot; 6 menit baca</span>
+    <p><button onclick="buka(6)" style="background:none;border:none;color:var(--accent);cursor:pointer;font-size:0.9rem;padding:0;font-family:inherit">Baca artikel &rarr;</button></p>
+  </li>
+  <li class="post-card">
+    <h2>Panduan Lengkap pkg di Termux</h2>
+    <p>Package manager bawaan Termux: install, remove, update, upgrade, dan bersihkan cache.</p>
+    <span class="meta">7 Oktober 2026 &middot; 5 menit baca</span>
+    <p><button onclick="buka(7)" style="background:none;border:none;color:var(--accent);cursor:pointer;font-size:0.9rem;padding:0;font-family:inherit">Baca artikel &rarr;</button></p>
   </li>
 </ul>
 
@@ -200,7 +322,7 @@ git push -u origin main</code></pre>
 <h1>Kendalikan Program dari Telegram</h1>
 <span class="meta">5 Oktober 2026 &middot; 6 menit baca</span>
 
-<p>Program yang jalan sendiri itu memangADA gunanya. Tapi program yang jalan sendiri <em>dan</em> bisa diperintah dari jauh adalah masalah yang berbeda. HP tidak perlu disentuh untuk menjalankan, dan tidak perlu dibuka untuk mengendalikan.</p>
+<p>Program yang jalan sendiri itu memang ada gunanya. Tapi program yang jalan sendiri <em>dan</em> bisa diperintah dari jauh adalah masalah yang berbeda. HP tidak perlu disentuh untuk menjalankan, dan tidak perlu dibuka untuk mengendalikan.</p>
 
 <h2>Arsitektur paling sederhana</h2>
 <p>Tiga bagian, semuanya berjalan di HP:</p>
@@ -221,7 +343,7 @@ git push -u origin main</code></pre>
 </ul>
 
 <h2>Aturan emas: satu bot, satu poller</h2>
-<p>Ini yang paling sering menimbulkan masalah. Setiap token bot Telegram hanya bisa dibaca oleh <strong>satu</strong> program pada satu waktu. Kalau dua program berjalan bersamaan memakai token yang sama, salah satunya merebut pesan, dan program yang Beautynamed ikut kehilangan kemampuan membalas.</p>
+<p>Ini yang paling sering menimbulkan masalah. Setiap token bot Telegram hanya bisa dibaca oleh <strong>satu</strong> program pada satu waktu. Kalau dua program berjalan bersamaan memakai token yang sama, salah satunya merebut pesan, dan program yang lain ikut kehilangan kemampuan membalas.</p>
 <p>Akibatnya bisa ringan, bisa fatal. Bot yang tadinya lancar bisa berubah diam. Gejalanya membingungkan karena log tetap mencatat pesan masuk, padahal tidak ada balasan yang keluar.</p>
 
 <h2>Log bukan bukti bot membalas</h2>
@@ -250,21 +372,21 @@ else:
 <p>Bot yang menjawab &ldquo;saya tidak tahu&rdquo; jelas masih hidup. Bot yang tidak menjawab sama sekali akan dianggap mati, dan itu asumsi yang paling mahal karena membuat pengguna menyangka programnya rusak.</p>
 
 <h2>Normalisasi sebelum mencocokkan</h2>
-<p>Pengguna tidak mengetik persis seperti dokumentasi. Ia bisa menulis <code>Status</code>, <code>/status</code>, atau <code>status@Chacha25bot</code>. Ketiganya perintah yang sama. Kalau pencocokan dilakukan mentah-mentah:</p>
+<p>Pengguna tidak mengetik persis seperti dokumentasi. Ia bisa menulis <code>Status</code>, <code>/status</code>, atau <code>status@bot_anda</code>. Ketiganya perintah yang sama. Kalau pencocokan dilakukan mentah-mentah:</p>
 <table>
 <thead><tr><th>Masukan pengguna</th><th>Harus dianggap sebagai</th></tr></thead>
 <tbody>
 <tr><td><code>status</code></td><td>perintah status</td></tr>
 <tr><td><code>Status</code></td><td>perintah status</td></tr>
 <tr><td><code>/STATUS</code></td><td>perintah status</td></tr>
-<tr><td><code>status@Chacha25bot</code></td><td>perintah status</td></tr>
+<tr><td><code>status@bot_anda</code></td><td>perintah status</td></tr>
 <tr><td><code>halo</code></td><td>tidak dikenal, tetap dibalas</td></tr>
 </tbody>
 </table>
-<p>Normalisasi harus menjadi baris pertama, sebelum logika apa pun. Detail kecil ini yang menentukan apakah bot terasa|round pintar atau terasa kaku.</p>
+<p>Normalisasi harus menjadi baris pertama, sebelum logika apa pun. Detail kecil ini yang menentukan apakah bot terasa pintar atau terasa kaku.</p>
 
 <h2>Menguji tanpa mengirim apa pun</h2>
-<p>Jangan langsung menguji program ke Against pengguna. Ganti fungsi pengirim dengan stub yang hanya mencatat:</p>
+<p>Jangan langsung menguji program ke pengguna. Ganti fungsi pengirim dengan stub yang hanya mencatat:</p>
 <pre><code>terkirim = []
 
 def kirim(teks):
@@ -276,7 +398,7 @@ for masukan in (biasanya, kapital, tak_dikenal, bersuffix):
     jalankan(masukan)
     assert terkirim, &quot;masukan tidak dibalas: &quot; + masukan
 </code></pre>
-<p>Untuk bot trading, stub ini jauh lebih penting. Jangan pernah memanggil fungsi yang membuka posisi asli di dalam pengujian. Sekali posisi nyata terbuka, tidak ada tombol batal.</p>
+<p>Untuk bot yang mengelola data sensitif, stub ini jauh lebih penting. Jangan pernah memanggil fungsi yang berdampak nyata di dalam pengujian. Sekali eksekusi nyata terjadi, tidak ada tombol batal.</p>
 
 <h2>Daftar periksa sebelum menyebut selesai</h2>
 <ol>
@@ -469,8 +591,188 @@ git push origin main</code></pre>
 
 <blockquote>Blog gratis bukan blog yang kurang serius. Ia adalah pintu masuk yang sempurna untuk memulai tanpa risiko, dan fondasi yang kuat untuk berkembang.</blockquote>
 </article>
+1|<article class="post" id="a5">
+2|  <h1>Cara Backup Termux ke GitHub</h1>
+3|
+4|  <p>Buat kamu yang suka ngutak-atik Termux, pasti pernah ngerasa was-was kan? Takut HP hilang, takut data penting ilang, atau takut semua konfigurasi yang udah susah-susun harus ulang dari nol. Makanya, backup itu penting. Dengan backup, semua file konfigurasi, script, dan data penting kamu bisa tersimpan aman di cloud. Salah satu cara termudah adalah memanfaatkan GitHub sebagai tempat penyimpanan.</p>
+5|
+6|  <blockquote>
+7|    <p>"Backup yang tidak pernah diuji itu bukan backup, itu hanya harapan." — Pepatah sysadmin</p>
+8|  </blockquote>
+9|
+10|  <h2>Kenapa Backup Penting?</h2>
+11|
+12|  <p>HP Android itu rawan. Bisa jatuh, bisa hilang, bisa kena virus, atau bisa juga kamu salah hapus file. Kalau kamu sudah menghabiskan waktu berjam-jam mengatur Termux — install package, bikin script, atau setup environment — tentu tidak mau kan harus mengulang semua itu? Dengan backup otomatis ke GitHub, kamu bisa tenang. Semua perubahan tercatat, dan kapan pun butuh, tinggal clone lagi.</p>
+13|
+14|  <h2>Setup Git di Termux</h2>
+15|
+16|  <p>Pertama, pastikan kamu sudah install git di Termux. Kalau belum, jalankan perintah berikut:</p>
+17|
+18|  <pre><code>pkg update && pkg install git -y</code></pre>
+19|
+20|  <p>Setelah itu, konfigurasi identitas git supaya commit kamu tercatat dengan benar:</p>
+21|
+22|  <pre><code>git config --global user.name "Nama Kamu"
+23|git config --global user.email "email@kamu.com"</code></pre>
+24|
+25|  <p>Selanjutnya, kamu butuh token GitHub untuk autentikasi. Buat token di halaman GitHub Settings → Developer settings → Personal access tokens. Simpan token itu baik-baik karena tidak akan ditampilkan lagi.</p>
+26|
+27|  <h2>Buat Repo GitHub</h2>
+28|
+29|  <p>Langkah selanjutnya adalah membuat repository di GitHub. Kamu bisa lewat website atau pakai GitHub CLI. Kalau pakai website, cukup klik tombol "New repository", beri nama misalnya <code>termux-backup</code>, dan pilih Private supaya hanya kamu yang bisa lihat.</p>
+30|
+31|  <p>Setelah repo dibuat, inisialisasi git di folder home Termux:</p>
+32|
+33|  <pre><code>cd ~
+34|git init
+35|git add .
+36|git commit -m "Initial backup"</code></pre>
+37|
+38|  <p>Lalu, hubungkan repo lokal kamu ke GitHub:</p>
+39|
+40|  <pre><code>git remote add origin https://github.com/username/termux-backup.git
+41|git branch -M main
+42|git push -u origin main</code></pre>
+43|
+44|  <p>Saat diminta password, masukkan token GitHub yang tadi kamu buat. Jangan pakai password biasa karena GitHub sudah tidak mendukung itu lagi.</p>
+45|
+46|  <h2>Push Otomatis dengan Cron</h2>
+47|
+48|  <p>Biar tidak repot manual push setiap ada perubahan, kita bisa pakai cron. Pertama, install cronie:</p>
+49|
+50|  <pre><code>pkg install cronie -y</code></pre>
+51|
+52|  <p>Lalu, buat script backup sederhana:</p>
+53|
+54|  <pre><code>#!/bin/bash
+55|cd ~
+56|git add .
+57|git commit -m "Auto backup $(date)"
+58|git push origin main</code></pre>
+59|
+60|  <p>Simpan script itu sebagai <code>backup.sh</code>, lalu beri izin eksekusi:</p>
+61|
+62|  <pre><code>chmod +x backup.sh</code></pre>
+63|
+64|  <p>Terakhir, tambahkan cron job untuk menjalankannya tiap hari jam 2 pagi:</p>
+65|
+66|  <pre><code>crontab -e
+67|# Tambahkan baris ini:
+68|0 2 * * * ~/backup.sh</code></pre>
+69|
+70|  <p>Dengan setup ini, setiap perubahan di home directory Termux akan otomatis ter-backup ke GitHub. Praktis, kan?</p>
+71|
+72|  <p>Selamat mencoba, dan selamat HP kamu aman dari kehilangan data!</p>
+73|</article>
+
+1|<article class="post" id="a6">
+2|<h1>Membuat SSH Key di Termux</h1>
+3|<span class="meta">7 Oktober 2026 · 6 menit baca</span>
+4|
+5|<p>Pernah nggak sih, lagi asik coding di HP terus mau push ke GitHub tapi diminta password terus? Atau malah nggak bisa push sama sekali? Nah, solusinya adalah pakai SSH key. Dengan SSH key, kamu bisa connect ke GitHub tanpa perlu ngetik password lagi. Praktis banget, apalagi kalau kamu sering banget push-pull dari Termux.</p>
+6|
+7|<h2>Apa itu SSH key?</h2>
+8|<p>SSH key adalah sepasang kunci kriptografi yang digunakan untuk autentikasi aman antara HP kamu dan server GitHub. Ada dua kunci: <strong>private key</strong> (disimpan di HP, jangan pernah bagikan) dan <strong>public key</strong> (di-upload ke GitHub). Kalau cocok, koneksi langsung terbuka tanpa password.</p>
+9|
+10|<h2>Kenapa perlu SSH key?</h2>
+11|<ul>
+12|<li><strong>Tanpa password</strong> — push/pull langsung jadi, nggak perlu ngetik password terus</li>
+13|<li><strong>Lebih aman</strong> — kunci kriptografi lebih sulit dibobol daripada password</li>
+14|<li><strong>Automatis</strong> — sekali setup, selamanya langsung connect</li>
+15|</ul>
+16|
+17|<h2>Langkah 1: Generate SSH key</h2>
+18|<p>Buka Termux dan jalankan perintah berikut:</p>
+19|<pre><code>ssh-keygen -t ed25519 -C "email-kamu@gmail.com"</code></pre>
+20|<p>Kalau diminta lokasi file, tekan <strong>Enter</strong> buat pakai default. Kalau diminta passphrase, bisa dikosongkan (tekan Enter dua kali) atau diisi buat keamanan ekstra.</p>
+21|
+22|<h2>Langkah 2: Copy public key</h2>
+23|<p>Setelah generate selesai, copy public key ke clipboard:</p>
+24|<pre><code>cat ~/.ssh/id_ed25519.pub</code></pre>
+25|<p>Blok semua teks yang muncul, lalu copy. Atau kalau kamu pakai Termux API:</p>
+26|<pre><code>termux-clipboard-set &lt; ~/.ssh/id_ed25519.pub</code></pre>
+27|
+28|<h2>Langkah 3: Tambah ke GitHub</h2>
+29|<ol>
+30|<li>Buka <code>github.com</code> di browser</li>
+31|<li>Ke <strong>Settings</strong> → <strong>SSH and GPG keys</strong></li>
+32|<li>Klik <strong>New SSH key</strong></li>
+33|<li>Isi title (misal: "HP Android") dan paste public key</li>
+34|<li>Klik <strong>Add SSH key</strong></li>
+35|</ol>
+36|
+37|<h2>Langkah 4: Test koneksi</h2>
+38|<p>Setelah SSH key ditambahkan, test koneksi dengan:</p>
+39|<pre><code>ssh -T git@github.com</code></pre>
+40|<p>Kalau berhasil, muncul pesan: <em>Hi username! You've successfully authenticated...</em></p>
+41|
+42|<h2>Langkah 5: Ganti remote URL ke SSH</h2>
+43|<p>Kalau repo-mu masih pakai HTTP, ganti ke SSH:</p>
+44|<pre><code>git remote set-url origin git@github.com:username/repo.git</code></pre>
+45|<p>Sekarang push/pull langsung jalan tanpa password!</p>
+46|
+47|<blockquote>SSH key adalah investasi sekali setup, selamanya nggak perlu pusing password lagi.</blockquote>
+48|</article>
+49|
+
+1|<article class="post" id="a7">
+2|<h1>Panduan Lengkap pkg di Termux</h1>
+3|<span class="meta">7 Oktober 2026 · 5 menit baca</span>
+4|
+5|<p>Kalau kamu baru mulai pakai Termux, pasti sering nemu perintah <code>pkg</code> di berbagai tutorial. Tapa apa sih pkg itu sebenarnya? Singkatnya, <code>pkg</code> adalah package manager bawaan Termux yang memudahkan kamu untuk menginstal, menghapus, dan memperbarui paket software langsung dari terminal Android. Bayangkan pkg seperti Play Store, tapi versi terminal.</p>
+6|
+7|<h2>Perintah dasar pkg</h2>
+8|<p>Berikut perintah-perintah yang paling sering dipakai:</p>
+9|<pre><code># Update daftar paket
+10|pkg update
+11|
+12|# Upgrade semua paket
+13|pkg upgrade
+14|
+15|# Install paket baru
+16|pkg install nama_paket
+17|
+18|# Hapus paket
+19|pkg remove nama_paket
+20|
+21|# Cari paket
+22|pkg search kata_kunci</code></pre>
+23|
+24|<h2>Install multiple paket sekaligus</h2>
+25|<p>Bisa install beberapa paket dalam satu perintah:</p>
+26|<pre><code>pkg install git curl wget nano</code></pre>
+27|
+28|<h2>Bersihkan cache</h2>
+29|<p>Setelah install/upgrade, cache paket menumpuk dan makan storage. Bersihkan dengan:</p>
+30|<pre><code>pkg clean</code></pre>
+31|<p>Atau buat bersihin sekaligus update + upgrade + clean:</p>
+32|<pre><code>pkg update && pkg upgrade && pkg clean</code></pre>
+33|
+34|<h2>Paket yang wajib diinstall</h2>
+35|<p>Berikut paket-paket dasar yang hampir selalu dipakai:</p>
+36|<ul>
+37|<li><code>git</code> — version control, upload ke GitHub</li>
+38|<li><code>curl</code> — HTTP client, testing API</li>
+39|<li><code>wget</code> — download file</li>
+40|<li><code>nano</code> — editor teks di terminal</li>
+41|<li><code>python</code> — bahasa pemrograman serbaguna</li>
+42|<li><code>nodejs</code> — JavaScript runtime</li>
+43|</ul>
+44|
+45|<h2>Tips menghemat storage</h2>
+46|<p>Termux menyimpan semua datanya di folder internal HP. Supaya storage tidak cepat penuh:</p>
+47|<ol>
+48|<li>Teraturin <code>pkg clean</code> setelah install/upgrade</li>
+49|<li>Hapus paket yang tidak dipakai dengan <code>pkg remove</code></li>
+50|<li>Cek ukuran folder dengan <code>du -sh ~/</code></li>
+51|</ol>
+52|
+53|<blockquote>pkg adalah pintu masuk dunia Linux di HP Android. Kuasai dasar-dasarnya, dan Termux jadi jauh lebih powerful.</blockquote>
+54|</article>
+55|
+
 <footer class="site">
-  <p>&copy; 2026 Blog Ardi Aliansyah</p>
+  <p>&copy; 2026 Blog asmady</p>
 </footer>
 </div>
 
